@@ -10,7 +10,7 @@ public class ModLoader
         InitializeDoorstop();
 
         // Initialize HarmonyX
-        Harmony harmony = new Harmony("com.boplplus.boplplus");
+        Harmony harmony = new Harmony("com.BoplPlus.BoplPlus");
         harmony.PatchAll();
 
         // Load mods
@@ -20,12 +20,12 @@ public class ModLoader
     private static void InitializeDoorstop()
     {
         // Path to the Doorstop DLL
-        string doorstopPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Doorstop.dll");
+        string doorstopPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "winhttp.dll");
 
         // Check if Doorstop DLL exists
         if (!File.Exists(doorstopPath))
         {
-            Logger.Log("Doorstop.dll not found.");
+            Logger.Log("winhttp.dll not found.");
             return;
         }
 

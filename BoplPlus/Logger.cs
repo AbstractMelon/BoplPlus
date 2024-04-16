@@ -1,12 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace BoplPlus
+public static class PlusLogger
 {
-    internal class Logger
+    public static void Log(string message)
     {
+        Console.WriteLine("[BoplPlus] " + message);
+    }
+
+    public static void LogError(string errorMessage)
+    {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("[BoplPlus - ERROR] " + errorMessage);
+        Console.ResetColor();
+    }
+
+    public static void LogWarning(string warningMessage)
+    {
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.WriteLine("[BoplPlus - WARNING] " + warningMessage);
+        Console.ResetColor();
     }
 }
