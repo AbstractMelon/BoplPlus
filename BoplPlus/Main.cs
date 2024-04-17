@@ -1,9 +1,10 @@
-﻿using HarmonyLib;
+﻿using BoplPlus;
+using HarmonyLib;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-public class ModLoader
+public class Loader
 {
     public static void Initialize()
     {
@@ -17,6 +18,9 @@ public class ModLoader
         Harmony harmony = new Harmony("com.BoplPlus.BoplPlus");
         harmony.PatchAll();
 
+        // Canvas
+        ModnamesStuff.RunMainMenuModifications();
+
         // Load mods
         LoadMods();
     }
@@ -24,12 +28,13 @@ public class ModLoader
     public static void RedirectConsoleOutput()
     {
         // Create a log file in the base directory
-        string logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "console.log");
+        string logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "PastLog.log");
 
         // Redirect console output and error to the log file
         StreamWriter writer = new StreamWriter(logFilePath);
         Console.SetOut(writer);
         Console.SetError(writer);
+        Console.WriteLine(logFilePath);
     }
 
     private static void InitializeDoorstop()
