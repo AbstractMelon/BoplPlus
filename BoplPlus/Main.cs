@@ -1,11 +1,15 @@
 ﻿using HarmonyLib;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 public class ModLoader
 {
     public static void Initialize()
     {
+        // Redirect console output to a log file
+        RedirectConsoleOutput();
+
         // Initialize Doorstop
         InitializeDoorstop();
 
@@ -17,10 +21,21 @@ public class ModLoader
         LoadMods();
     }
 
+    public static void RedirectConsoleOutput()
+    {
+        // Create a log file in the base directory
+        string logFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "console.log");
+
+        // Redirect console output and error to the log file
+        StreamWriter writer = new StreamWriter(logFilePath);
+        Console.SetOut(writer);
+        Console.SetError(writer);
+    }
+
     private static void InitializeDoorstop()
     {
-        // Path to the Doorstop DLL
-        string doorstopPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "winhttp.dll");
+        // Path to the Doorstop DLL (relative to BoplPlus.dll)
+        string doorstopPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "../winhttp.dll");
 
         // Check if Doorstop DLL exists
         if (!File.Exists(doorstopPath))
@@ -77,13 +92,5 @@ public class ModLoader
         {
             Logger.Log($"Failed to load mod {Path.GetFileName(modFile)}: {ex.Message}");
         }
-    }
-}
-
-public static class Logger
-{
-    public static void Log(string message)
-    {
-        Console.WriteLine("[ModLoader] " + message);
     }
 }

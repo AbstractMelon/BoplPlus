@@ -1,23 +1,31 @@
 ﻿using System;
+using System.IO;
 
-public static class PlusLogger
+public static class Logger
 {
+    private static readonly string LogFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "console.log");
+
     public static void Log(string message)
     {
+        // Log to console
         Console.WriteLine("[BoplPlus] " + message);
+
+        // Log to file
+        LogToFile(message);
     }
 
-    public static void LogError(string errorMessage)
+    private static void LogToFile(string message)
     {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine("[BoplPlus - ERROR] " + errorMessage);
-        Console.ResetColor();
-    }
-
-    public static void LogWarning(string warningMessage)
-    {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("[BoplPlus - WARNING] " + warningMessage);
-        Console.ResetColor();
+        try
+        {
+            using (StreamWriter writer = new StreamWriter(LogFilePath, true))
+            {
+                writer.WriteLine("[BoplPlus] " + message);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("[Logger] Failed to log to file: " + ex.Message);
+        }
     }
 }
